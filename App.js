@@ -1,96 +1,138 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
+import React from 'react';
+import {StyleSheet, Text, View} from 'react-native';
+import {createStackNavigator, createAppContainer} from 'react-navigation';
+import {Input} from './components/input';
+import {Button} from './components/button';
 
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Button, Image, AppRegistry} from 'react-native';
-import * as firebase from 'firebase';
-import {input} from '.components/input';
+export default class App extends React.Component {
 
-
-
-type Props = {};
-export default class App extends Component<Props> {
-  componentWillMount(){
-    const firebaseConfig={
-        apikey: 'AIzaSyD_xPFkOOPSv9UFlUB5IeB2eon14k7JbaY',
-        authDomain:'rn-firebase-e376e.firebaseapp.com',
-    }
-      firebase.initializeApp(firebaseConfig);
+  state = {
+    email: '',
+    password: '',
+    authenticating: false,
   }
-  
+
+  render() {
+    return (
+      <AppContainer/>
+    );
+  }
+}
+
+class register extends React.Component {
+
+  static navigationOptions = {
+    headerStyle: {
+      backgroundColor: 'white'
+    }
+  }
+
   render() {
     return (
       <View style={styles.container}>
-      <Input/>>
+        <Text style={styles.text}>Register Your Account here </Text>
+        <Input
+          placeholder = 'Enter name'
+          label = 'Name'
+        />
+        <Input
+          placeholder = 'Enter email'
+          label = 'Email'
+        />
 
-        <Text style={styles.welcome}>Welcome to Product Apps!</Text>
-        <Text style={styles.instructions}>Project  react native </Text>
-      
-        
+        <Input
+          placeholder = 'Enter password'
+          label = 'Password'
+          secureTextEntry
+        />
+
         <Button
-      
-           title="Create"
-          color="#841584"
-           accessibilityLabel="Learn more about this purple button" />
+          title = 'Register'
+          onPress = { () => this.props.navigation.navigate('Home')}
+        >Register</Button>
 
-         <Button
-      
-           title="Update"
-          color="#841584"
-          accessibilityLabel="Learn more about this purple button" />
-
-         <Button
-      
-          title="Read"
-          color="#841584"
-           accessibilityLabel="Learn more about this purple button" /> 
-
-           <Button
-      
-          title="Delete"
-          color="#841584"
-           accessibilityLabel="Learn more about this purple button" />      
-
-
-        <Image
-          style={{width: 50, height: 50}}
-          source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
-        />   
-
-
-
-
-
-
-
-
-
-
+        <Button
+          title = 'Login'
+          onPress = { () => this.props.navigation.navigate('Home')}
+        >Login</Button>
       </View>
     );
   }
 }
 
+class login extends React.Component {
+
+
+  render() {
+
+    return (
+      <View style={styles.container}>
+        
+        <Input
+          placeholder = 'Enter email'
+          label = 'Email'
+        />
+
+        <Input
+          placeholder = 'Enter password'
+          label = 'Password'
+          secureTextEntry
+        />
+
+        <Button
+          title = 'Login'
+          onPress = { () => this.props.navigation.navigate('Homepage')}
+        >Login</Button>
+
+        <Button
+          title = 'Register'
+          onPress = { () => this.props.navigation.navigate('Register')}
+        >Register</Button>
+      </View>
+    );
+  }
+}
+
+class homepage extends React.Component {
+
+
+  render() {
+
+    return (
+      <View style={styles.container}>
+        
+        <Text style={styles.text}>Homepage </Text>
+      </View>
+    );
+  }
+}
+
+const AppStackNavigator = createStackNavigator({
+  Home: login,
+  Register: register,
+  Homepage:homepage
+}, {
+  defaultNavigationOptions: {
+    headerStyle: {
+      backgroundColor: 'white'
+    }
+  }
+});
+
+const AppContainer =  createAppContainer(AppStackNavigator);
+
 const styles = StyleSheet.create({
+
   container: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#333333',
+    backgroundColor: '#F5FCFF',
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+
+    text:{
+      alignItems: 'center',
+      fontSize: 20,
+      color: 'black',
+
+    }
 });
